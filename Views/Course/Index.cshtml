@@ -1,0 +1,31 @@
+﻿@model IEnumerable<E_learningPlatform.DTO.courseDTO>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2 class="mt-4 mb-3">Available Courses</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.CourseTitle</td>
+                <td>@course.Description</td>
+                <td>@course.Price</td>
+                <td>@(course.Available ? "Yes" : "No")</td>
+                <td>@course.CreatedAt.ToString("g")</td>
+            </tr>
+        }
+    </tbody>
+</table>

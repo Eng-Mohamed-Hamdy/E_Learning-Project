@@ -1,3 +1,6 @@
+using E_learningPlatform.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_learningPlatform
 {
     public class Program
@@ -5,6 +8,12 @@ namespace E_learningPlatform
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ElearnDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("db"));
+            });
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -19,6 +28,7 @@ namespace E_learningPlatform
                 app.UseHsts();
             }
 
+  
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
