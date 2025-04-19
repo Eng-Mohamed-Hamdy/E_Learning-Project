@@ -4,28 +4,71 @@
     ViewData["Title"] = "Courses";
 }
 
-<h2 class="mt-4 mb-3">Available Courses</h2>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4 text-primary">Explore Our Courses</h1>
+            <p class="lead text-muted">Discover the perfect learning path for your goals</p>
+        </div>
+    </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Available</th>
-            <th>Created At</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var course in Model)
         {
-            <tr>
-                <td>@course.CourseTitle</td>
-                <td>@course.Description</td>
-                <td>@course.Price</td>
-                <td>@(course.Available ? "Yes" : "No")</td>
-                <td>@course.CreatedAt.ToString("g")</td>
-            </tr>
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 rounded-3 hover-effect">
+                    <div class="card-header bg-gradient text-white @(course.Available ? "bg-success" : "bg-secondary")">
+                        <span class="badge bg-light text-dark float-end">
+                            @(course.Available ? "Available" : "Coming Soon")
+                        </span>
+                        <h5 class="card-title mb-0">@course.CourseTitle</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-primary rounded-pill fs-6">$@course.Price.ToString("0.00")</span>
+                            <small class="text-muted">Created: @course.CreatedAt.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <p class="card-text">@(course.Description?.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-outline-primary flex-grow-1">View Details</a>
+                            @if (course.Available)
+                            {
+                                <a href="/Course/Enroll/@course.CourseId" class="btn btn-success flex-grow-1">
+                                    <i class="bi bi-check2-circle me-1"></i>Enroll Now
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary flex-grow-1" disabled>
+                                    <i class="bi bi-clock me-1"></i>Coming Soon
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+
+<style>
+    .hover-effect {
+        transition: transform 0.3s ease;
+    }
+    .hover-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    }
+    .card-header.bg-gradient {
+        background-size: 200% auto;
+        transition: 0.5s;
+    }
+    .card-header.bg-success {
+        background-image: linear-gradient(to right, #28a745, #20c997);
+    }
+    .card-header.bg-secondary {
+        background-image: linear-gradient(to right, #6c757d, #495057);
+    }
+</style>
