@@ -17,6 +17,8 @@ namespace E_learningPlatform.DTO
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime? UpdatedAt { get; set; }
         public int catogryid { get; set; }
-
+        
+        // Added property to store the category name
+        public string? CategoryName { get; set; }
     }
 }

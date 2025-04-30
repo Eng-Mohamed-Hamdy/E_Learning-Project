@@ -7,36 +7,41 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - E_learningPlatform</title>
+    <title>@ViewData["Title"] - EduLearn</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">E_learningPlatform</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-mortarboard-fill text-primary me-2"></i>EduLearn
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
+                            <a class="nav-link" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin")) // if admin
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin Dashboard</a> 
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin Dashboard</a> 
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
 
@@ -44,20 +49,17 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item dropdown">
- 
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                    <i class="bi bi-person-circle me-1"></i>
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle me-2"></i>
                                     <span>@User.Identity?.Name</span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
-       
-                          
-                  
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarUserDropdown">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-book me-2"></i>My Courses</a></li>
+                                    <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-     
-                                            <button type="submit" class="dropdown-item">Logout</button>
+                                            <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
                                         </form>
                                     </li>
                                 </ul>
@@ -65,30 +67,59 @@
                         }
                         else
                         {
-    
+                            <li class="nav-item me-2">
+                                <a class="nav-link btn btn-outline-primary px-3" asp-controller="Account" asp-action="Register">Sign Up</a>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link btn btn-primary text-white px-3" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
-              
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    
+    <div class="content-wrapper">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer mt-auto py-4 bg-light">
         <div class="container">
-            © @DateTime.Now.Year - E_learningPlatform - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="mb-3"><i class="bi bi-mortarboard-fill text-primary me-2"></i>EduLearn</h5>
+                    <p class="text-muted">Empowering learners through quality online education.</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none">About Us</a></li>
+                        <li><a asp-controller="Course" asp-action="Index" class="text-decoration-none">Courses</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy" class="text-decoration-none">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Connect With Us</h5>
+                    <div class="d-flex gap-3 fs-5">
+                        <a href="#" class="text-decoration-none"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center text-muted">
+                <small>© @DateTime.Now.Year - EduLearn - All rights reserved</small>
+            </div>
         </div>
     </footer>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> @* Ensure Bootstrap JS (for dropdown) is included *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

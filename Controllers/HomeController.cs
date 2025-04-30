@@ -1,21 +1,49 @@
 using System.Diagnostics;
 using E_learningPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
+using E_learningPlatform.Data;
+using Microsoft.EntityFrameworkCore;
+using E_learningPlatform.DTO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace E_learningPlatform.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ElearnDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ElearnDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // Get featured courses (for example: most recent or select a few)
+            var featuredCourses = await _context.Courses
+                .Include(c => c.Category)
+                .Where(c => c.Available == true)
+                .OrderByDescending(c => c.CreatedAt)
+                .Take(3) // Take 3 featured courses
+                .Select(c => new courseDTO
+                {
+                    CourseId = c.CourseId,
+                    CourseTitle = c.CourseTitle,
+                    Description = c.Description,
+                    Image = c.Image,
+                    Price = c.Price,
+                    Available = c.Available,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt,
+                    catogryid = c.CategoryId,
+                    CategoryName = c.Category.Name
+                })
+                .ToListAsync();
+
+            return View(featuredCourses);
         }
 
         public IActionResult Privacy()

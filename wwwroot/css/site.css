@@ -1,5 +1,19 @@
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4cc9f0;
+  --success-color: #2dc653;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --text-color: #495057;
+  --border-color: #dee2e6;
+}
+
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 @media (min-width: 768px) {
@@ -8,15 +22,185 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  margin-bottom: 0;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  flex: 1;
+  padding-top: 76px;
+}
+
+/* Navigation */
+.navbar-brand {
+  font-weight: 700;
+  color: var(--primary-color) !important;
+}
+
+.nav-link {
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+/* Hero Section */
+.hero {
+  background-color: var(--light-color);
+  padding: 100px 0 80px;
+}
+
+.hero h1 {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Cards */
+.card {
+  border: none;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Forms */
+.form-control {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+}
+
+.form-floating > label {
+  padding: 0.75rem 1rem;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Auth Pages */
+.auth-wrapper {
+  padding: 80px 0;
+}
+
+.auth-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+
+.auth-sidebar {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-sidebar h2 {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  padding: 3rem;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--light-color);
+}
+
+.footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Utility Classes */
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color) !important;
+}
+
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+.bg-accent {
+  background-color: var(--accent-color) !important;
 }
