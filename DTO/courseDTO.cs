@@ -10,6 +10,7 @@ namespace E_learningPlatform.DTO
         public string? Image { get; set; }
         public int Price { get; set; }
         public bool Available { get; set; } = true;
+        public string InstructorName { get; set; } // New property
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; }

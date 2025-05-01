@@ -14,6 +14,9 @@ namespace E_learningPlatform.Models
         public int Price { get; set; }
         public bool Available { get; set; } = true;
 
+        [Required]
+        public string InstructorName { get; set; } // New property
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; }
 

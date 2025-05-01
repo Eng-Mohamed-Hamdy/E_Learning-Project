@@ -37,7 +37,8 @@ namespace E_learningPlatform.Seed
                     Available = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    CategoryId = 1 // Science
+                    CategoryId = 1, // Science
+                    InstructorName = "Mr. Ahmed Adel" // New property
                 },
                 new Course
                 {
@@ -49,7 +50,8 @@ namespace E_learningPlatform.Seed
                     Available = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    CategoryId = 2 // Mathematics
+                    CategoryId = 2, // Mathematics
+                    InstructorName = "Mr. Moahmed Ahmed"
                 },
                 new Course
                 {
@@ -61,7 +63,8 @@ namespace E_learningPlatform.Seed
                     Available = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    CategoryId = 3 // History
+                    CategoryId = 3, // History
+                    InstructorName = "Mr. Sayed Alaa"
                 }
             );
         }
