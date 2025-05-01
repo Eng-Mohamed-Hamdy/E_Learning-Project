@@ -28,6 +28,7 @@
                             <span class="badge bg-primary rounded-pill fs-6">$@course.Price.ToString("0.00")</span>
                             <small class="text-muted">Created: @course.CreatedAt.ToString("MMM dd, yyyy")</small>
                         </div>
+                        <p class="mb-2"><strong>Instructor:</strong> @course.InstructorName</p>
                         <p class="card-text">@(course.Description?.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">

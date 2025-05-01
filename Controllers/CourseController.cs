@@ -29,7 +29,8 @@ namespace E_learningPlatform.Controllers
                     Available = c.Available,
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt,
-                    catogryid = c.CategoryId
+                    catogryid = c.CategoryId,
+                    InstructorName = c.InstructorName // Add this line
                 })
                 .ToListAsync();
 

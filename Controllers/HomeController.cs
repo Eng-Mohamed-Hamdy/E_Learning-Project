@@ -39,7 +39,8 @@ namespace E_learningPlatform.Controllers
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt,
                     catogryid = c.CategoryId,
-                    CategoryName = c.Category.Name
+                    CategoryName = c.Category.Name,
+                    InstructorName = c.InstructorName  // Add this line
                 })
                 .ToListAsync();
 
