@@ -194,6 +194,14 @@ namespace E_learningPlatform.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if a category with the same name already exists
+                bool categoryExists = await _context.Categories.AnyAsync(c => c.Name.ToLower() == category.Name.ToLower());
+                if (categoryExists)
+                {
+                    ModelState.AddModelError("Name", "A category with this name already exists.");
+                    return View(category);
+                }
+
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Category created successfully!";
@@ -219,6 +227,16 @@ namespace E_learningPlatform.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if another category with the same name exists (excluding the current one)
+                bool categoryExists = await _context.Categories
+                    .AnyAsync(c => c.Id != category.Id && c.Name.ToLower() == category.Name.ToLower());
+                    
+                if (categoryExists)
+                {
+                    ModelState.AddModelError("Name", "A category with this name already exists.");
+                    return View(category);
+                }
+
                 _context.Update(category);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Category updated successfully!";
