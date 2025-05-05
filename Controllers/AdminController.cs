@@ -14,16 +14,16 @@ namespace E_learningPlatform.Controllers
     {
         private readonly ElearnDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager; // Added RoleManager
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public AdminController(
             ElearnDbContext context,
             UserManager<User> userManager,
-            RoleManager<IdentityRole<Guid>> roleManager) // Injected RoleManager
+            RoleManager<IdentityRole<Guid>> roleManager)
         {
             _context = context;
             _userManager = userManager;
-            _roleManager = roleManager; // Initialize RoleManager
+            _roleManager = roleManager;
         }
 
         // Admin Dashboard
@@ -171,6 +171,84 @@ namespace E_learningPlatform.Controllers
                 }
             }
             return View(model);
+        }
+
+        // Categories Management
+        public async Task<IActionResult> Categories()
+        {
+            var categories = await _context.Categories
+                .Include(c => c.Courses)
+                .ToListAsync();
+            return View(categories);
+        }
+
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCategory(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Category created successfully!";
+                return RedirectToAction("Categories");
+            }
+            return View(category);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCategory(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Category updated successfully!";
+                return RedirectToAction("Categories");
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
+            {
+                // Check if there are any courses in this category
+                var hasRelatedCourses = await _context.Courses.AnyAsync(c => c.CategoryId == id);
+                
+                if (hasRelatedCourses)
+                {
+                    TempData["Error"] = "Cannot delete category because it has related courses. Remove the courses first or reassign them to another category.";
+                }
+                else
+                {
+                    _context.Categories.Remove(category);
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "Category deleted successfully!";
+                }
+            }
+            return RedirectToAction("Categories");
         }
     }
 }
