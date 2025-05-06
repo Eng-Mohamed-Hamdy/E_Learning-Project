@@ -29,7 +29,10 @@ namespace E_learningPlatform.Models
         public Category Category { get; set; }
 
 
+        public virtual ICollection<User> students { get; set; }
         public ICollection<lesson> lessons { get; set; }
+
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
 
     }
 }

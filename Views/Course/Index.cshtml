@@ -12,61 +12,68 @@
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach (var course in Model)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0 rounded-3 hover-effect">
-                    <div class="card-header bg-gradient text-white">
-                  <img src="@course.Image" class="card-img-top" style="object-fit: cover; width: 100%; height: 250px;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title mb-0">@course.CourseTitle</h5>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="badge bg-primary rounded-pill fs-6">$@course.Price.ToString("0.00")</span>
-                            <small class="text-muted">Created: @course.CreatedAt.ToString("MMM dd, yyyy")</small>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mt-4" role="alert">
+            <h4 class="alert-heading">No Courses Available</h4>
+            <p>There are currently no courses to display. Please check back later.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var course in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 rounded-3 hover-effect">
+                        <div class="card-header bg-gradient text-white">
+                            <img src="@course.Image" class="card-img-top" alt="Image for @course.CourseTitle" style="object-fit: cover; width: 100%; height: 250px;">
                         </div>
-                        <p class="mb-2"><strong>Instructor:</strong> @course.InstructorName</p>
-                        <p class="card-text">@(course.Description?.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0">
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-outline-primary flex-grow-1">View Details</a>
-                            @if (course.Available)
-                            {
-                                <a href="/Course/Enroll/@course.CourseId" class="btn btn-success flex-grow-1">
-                                    <i class="bi bi-check2-circle me-1"></i>Enroll Now
-                                </a>
-                            }
-                            else
-                            {
-                                <button class="btn btn-secondary flex-grow-1" disabled>
-                                    <i class="bi bi-clock me-1"></i>Coming Soon
-                                </button>
-                            }
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">@course.CourseTitle</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-primary rounded-pill fs-6">$@course.Price.ToString("0.00")</span>
+                                <small class="text-muted">@course.CreatedAt.ToString("MMM dd, yyyy")</small>
+                            </div>
+                            <p class="mb-2"><strong>Instructor:</strong> @course.InstructorName</p>
+                            <p class="card-text">@(course.Description?.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex gap-2">
+                                <a asp-controller="Course" asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-outline-primary flex-grow-1">View Details</a>
+
+                                    <a asp-controller="Course" asp-action="Enroll" asp-route-id="@course.CourseId" class="btn btn-success flex-grow-1">
+                                        <i class="bi bi-check2-circle me-1"></i>Enroll Now
+                                    </a>
+                           
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
 </div>
 
 <style>
     .hover-effect {
         transition: transform 0.3s ease;
     }
-    .hover-effect:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
-    }
+
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+        }
+
     .card-header.bg-gradient {
         background-size: 200% auto;
         transition: 0.5s;
     }
+
     .card-header.bg-success {
         background-image: linear-gradient(to right, #28a745, #20c997);
     }
+
     .card-header.bg-secondary {
         background-image: linear-gradient(to right, #6c757d, #495057);
     }

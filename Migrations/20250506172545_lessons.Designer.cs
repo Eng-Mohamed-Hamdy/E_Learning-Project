@@ -4,6 +4,7 @@ using E_learningPlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_learningPlatform.Migrations
 {
     [DbContext(typeof(ElearnDbContext))]
-    partial class ElearnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506172545_lessons")]
+    partial class lessons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace E_learningPlatform.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.Property<int>("CoursesCourseId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("studentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CoursesCourseId", "studentsId");
-
-                    b.HasIndex("studentsId");
-
-                    b.ToTable("CourseUser");
-                });
 
             modelBuilder.Entity("E_learningPlatform.Models.Category", b =>
                 {
@@ -133,12 +121,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 1,
                             CourseTitle = "Physics 101",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7073),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7916),
                             Description = "Introduction to classical mechanics and thermodynamics.",
                             Image = "physics101.jpg",
                             InstructorName = "Mr. Ahmed Adel",
                             Price = 100,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7076)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7920)
                         },
                         new
                         {
@@ -146,12 +134,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 1,
                             CourseTitle = "Chemistry Fundamentals",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7083),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7927),
                             Description = "Explore the basic principles of chemistry, atoms, and molecules.",
                             Image = "chemistry.jpg",
                             InstructorName = "Dr. Fatima Khalil",
                             Price = 95,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7084)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7927)
                         },
                         new
                         {
@@ -159,12 +147,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 1,
                             CourseTitle = "Introduction to Biology",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7087),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7930),
                             Description = "Learn about the science of life, from cells to ecosystems.",
                             Image = "biology.jpg",
                             InstructorName = "Prof. Samira Zayd",
                             Price = 110,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7087)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7931)
                         },
                         new
                         {
@@ -172,12 +160,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 1,
                             CourseTitle = "Astronomy: Exploring the Cosmos",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7090),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7933),
                             Description = "A journey through space, stars, planets, and galaxies.",
                             Image = "astronomy.jpg",
                             InstructorName = "Mr. Karim Farouk",
                             Price = 125,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7091)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7934)
                         },
                         new
                         {
@@ -185,12 +173,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 1,
                             CourseTitle = "Environmental Science Basics",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7093),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7936),
                             Description = "Understanding human impact on the environment and ecosystems.",
                             Image = "environmental.jpg",
                             InstructorName = "Ms. Layla Ibrahim",
                             Price = 90,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7094)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7937)
                         },
                         new
                         {
@@ -198,12 +186,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 2,
                             CourseTitle = "Calculus for Beginners",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7096),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7939),
                             Description = "Grasp the fundamentals of differential and integral calculus.",
                             Image = "calculus.jpg",
                             InstructorName = "Mr. Mohamed Ahmed",
                             Price = 80,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7097)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7940)
                         },
                         new
                         {
@@ -211,12 +199,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 2,
                             CourseTitle = "Algebra Essentials",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7099),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7943),
                             Description = "Master the core concepts of algebra, including equations and functions.",
                             Image = "algebra.jpg",
                             InstructorName = "Ms. Hoda Salah",
                             Price = 75,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7100)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7943)
                         },
                         new
                         {
@@ -224,12 +212,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 2,
                             CourseTitle = "Statistics and Probability",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7103),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7946),
                             Description = "Learn to analyze data and understand the principles of probability.",
                             Image = "statistics.jpg",
                             InstructorName = "Mr. Tarek Mahmoud",
                             Price = 100,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7103)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7946)
                         },
                         new
                         {
@@ -237,12 +225,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 2,
                             CourseTitle = "Geometry: Shapes and Space",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7106),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7950),
                             Description = "Explore Euclidean geometry, shapes, proofs, and spatial reasoning.",
                             Image = "geometry.jpg",
                             InstructorName = "Dr. Ibrahim Youssef",
                             Price = 85,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7106)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7951)
                         },
                         new
                         {
@@ -250,12 +238,12 @@ namespace E_learningPlatform.Migrations
                             Available = false,
                             CategoryId = 2,
                             CourseTitle = "Trigonometry Fundamentals",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7109),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7953),
                             Description = "Understand angles, triangles, and trigonometric functions.",
                             Image = "trigonometry.jpg",
                             InstructorName = "Ms. Nadia Hassan",
                             Price = 70,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7109)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7954)
                         },
                         new
                         {
@@ -263,12 +251,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 3,
                             CourseTitle = "Introduction to Physical Geography",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7112),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7959),
                             Description = "Explore Earth's landforms, climate, and natural processes.",
                             Image = "physical_geography.jpg",
                             InstructorName = "Dr. Hassan Fares",
                             Price = 110,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7112)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7960)
                         },
                         new
                         {
@@ -276,12 +264,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 3,
                             CourseTitle = "World Regional Geography",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7115),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7962),
                             Description = "A survey of the world's major cultural and physical regions.",
                             Image = "world_regions.jpg",
                             InstructorName = "Prof. Mona Said",
                             Price = 115,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7115)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7963)
                         },
                         new
                         {
@@ -289,12 +277,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 3,
                             CourseTitle = "Introduction to GIS",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7118),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7965),
                             Description = "Learn the basics of Geographic Information Systems and mapping.",
                             Image = "gis_intro.jpg",
                             InstructorName = "Eng. Karim Ismail",
                             Price = 135,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7119)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7966)
                         },
                         new
                         {
@@ -302,12 +290,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 3,
                             CourseTitle = "Urban Geography",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7121),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7968),
                             Description = "Study the spatial structure and development of cities.",
                             Image = "urban_geography.jpg",
                             InstructorName = "Dr. Hassan Fares",
                             Price = 120,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7122)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7969)
                         },
                         new
                         {
@@ -315,12 +303,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 3,
                             CourseTitle = "Climatology Basics",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7124),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7971),
                             Description = "Understanding weather patterns, climate zones, and climate change.",
                             Image = "climatology.jpg",
                             InstructorName = "Ms. Salwa Ali",
                             Price = 110,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7125)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7972)
                         },
                         new
                         {
@@ -328,12 +316,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 4,
                             CourseTitle = "Introduction to Python Programming",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7127),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7974),
                             Description = "Learn the fundamentals of programming using Python.",
                             Image = "python_intro.jpg",
                             InstructorName = "Eng. Omar Sharif",
                             Price = 150,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7128)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7975)
                         },
                         new
                         {
@@ -341,12 +329,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 4,
                             CourseTitle = "Web Development Basics (HTML, CSS, JS)",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7166),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7977),
                             Description = "Build your first websites using core web technologies.",
                             Image = "webdev_basics.jpg",
                             InstructorName = "Ms. Reem Abbas",
                             Price = 140,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7167)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7978)
                         },
                         new
                         {
@@ -354,12 +342,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 4,
                             CourseTitle = "Cybersecurity Fundamentals",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7170),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7980),
                             Description = "Understand the basics of cybersecurity threats and defenses.",
                             Image = "cybersecurity.jpg",
                             InstructorName = "Mr. Ali Mansour",
                             Price = 160,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7170)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7981)
                         },
                         new
                         {
@@ -367,12 +355,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 4,
                             CourseTitle = "Data Science Essentials",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7173),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7984),
                             Description = "An introduction to data analysis, visualization, and machine learning concepts.",
                             Image = "datascience.jpg",
                             InstructorName = "Dr. Zainab Dawoud",
                             Price = 175,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7173)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7985)
                         },
                         new
                         {
@@ -380,12 +368,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 4,
                             CourseTitle = "Cloud Computing with AWS",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7176),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7987),
                             Description = "Learn the basics of cloud services using Amazon Web Services.",
                             Image = "aws_cloud.png",
                             InstructorName = "Eng. Rami Said",
                             Price = 180,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7176)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7988)
                         },
                         new
                         {
@@ -393,12 +381,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 5,
                             CourseTitle = "English Grammar Essentials",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7181),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7990),
                             Description = "Master the core rules of English grammar and punctuation.",
                             Image = "grammar.jpg",
                             InstructorName = "Ms. Sarah Jones",
                             Price = 90,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7182)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7991)
                         },
                         new
                         {
@@ -406,12 +394,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 5,
                             CourseTitle = "Creative Writing: Fiction & Poetry",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7184),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7993),
                             Description = "Develop your skills in writing compelling stories and poems.",
                             Image = "creative_writing.jpg",
                             InstructorName = "Mr. David Miller",
                             Price = 85,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7185)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7994)
                         },
                         new
                         {
@@ -419,12 +407,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 5,
                             CourseTitle = "Advanced English Composition",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7187),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7996),
                             Description = "Learn techniques for crafting effective essays and reports.",
                             Image = "composition.jpg",
                             InstructorName = "Dr. Emily White",
                             Price = 95,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7188)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7997)
                         },
                         new
                         {
@@ -432,12 +420,12 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 5,
                             CourseTitle = "Business English Communication",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7190),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(7999),
                             Description = "Improve your professional writing and speaking skills.",
                             Image = "business_english.jpg",
                             InstructorName = "Mr. John Smith",
                             Price = 110,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7190)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(8000)
                         },
                         new
                         {
@@ -445,40 +433,13 @@ namespace E_learningPlatform.Migrations
                             Available = true,
                             CategoryId = 5,
                             CourseTitle = "Survey of English Literature",
-                            CreatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7193),
+                            CreatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(8002),
                             Description = "Explore major authors and works from Old English to Modern.",
                             Image = "english_literature.jpg",
                             InstructorName = "Prof. Laura Brown",
                             Price = 100,
-                            UpdatedAt = new DateTime(2025, 5, 6, 17, 53, 1, 224, DateTimeKind.Utc).AddTicks(7193)
+                            UpdatedAt = new DateTime(2025, 5, 6, 17, 25, 44, 419, DateTimeKind.Utc).AddTicks(8002)
                         });
-                });
-
-            modelBuilder.Entity("E_learningPlatform.Models.Enrollment", b =>
-                {
-                    b.Property<int>("EnrollmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentId"));
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("courseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EnrollmentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("courseId");
-
-                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Models.Exam", b =>
@@ -522,29 +483,6 @@ namespace E_learningPlatform.Migrations
                     b.HasIndex("lessonId");
 
                     b.ToTable("Exams");
-                });
-
-            modelBuilder.Entity("E_learningPlatform.Models.MyCourse", b =>
-                {
-                    b.Property<int>("MycourseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MycourseId"));
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("courseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MycourseId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("courseId");
-
-                    b.ToTable("MyCourses");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Models.User", b =>
@@ -1647,21 +1585,6 @@ namespace E_learningPlatform.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CourseUser", b =>
-                {
-                    b.HasOne("E_learningPlatform.Models.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesCourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("E_learningPlatform.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("studentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("E_learningPlatform.Models.Course", b =>
                 {
                     b.HasOne("E_learningPlatform.Models.Category", "Category")
@@ -1671,25 +1594,6 @@ namespace E_learningPlatform.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("E_learningPlatform.Models.Enrollment", b =>
-                {
-                    b.HasOne("E_learningPlatform.Models.User", "Student")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("E_learningPlatform.Models.Course", "Course")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("courseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Models.Exam", b =>
@@ -1709,25 +1613,6 @@ namespace E_learningPlatform.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("E_learningPlatform.Models.MyCourse", b =>
-                {
-                    b.HasOne("E_learningPlatform.Models.User", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("E_learningPlatform.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("courseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Models.lesson", b =>
@@ -1799,14 +1684,7 @@ namespace E_learningPlatform.Migrations
 
             modelBuilder.Entity("E_learningPlatform.Models.Course", b =>
                 {
-                    b.Navigation("Enrollments");
-
                     b.Navigation("lessons");
-                });
-
-            modelBuilder.Entity("E_learningPlatform.Models.User", b =>
-                {
-                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

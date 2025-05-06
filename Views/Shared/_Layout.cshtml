@@ -40,9 +40,8 @@
                                 <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin Dashboard</a> 
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        <!-- will add the about us page here-->
+
                     </ul>
 
                     <ul class="navbar-nav">
@@ -54,8 +53,10 @@
                                     <span>@User.Identity?.Name</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarUserDropdown">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-book me-2"></i>My Courses</a></li>
+                                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))  
+                                    {  
+                                       <li><a class="dropdown-item" asp-controller="Enrollment" asp-action="MyCourses"><i class="bi bi-book me-2"></i>My Courses</a></li>  
+                                    }
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
@@ -98,7 +99,7 @@
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-decoration-none">About Us</a></li>
                         <li><a asp-controller="Course" asp-action="Index" class="text-decoration-none">Courses</a></li>
-                        <li><a asp-controller="Home" asp-action="Privacy" class="text-decoration-none">Privacy Policy</a></li>
+               
                     </ul>
                 </div>
                 <div class="col-md-4">
