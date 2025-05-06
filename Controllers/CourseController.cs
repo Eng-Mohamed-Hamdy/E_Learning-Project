@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using E_learningPlatform.Data;
+using E_learningPlatform.Data; 
 using E_learningPlatform.Models;
-using E_learningPlatform.DTO;
+using E_learningPlatform.DTO; 
 using Microsoft.EntityFrameworkCore;
+using System.Linq; 
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering; 
 
 namespace E_learningPlatform.Controllers
 {
@@ -15,10 +18,11 @@ namespace E_learningPlatform.Controllers
             _context = context;
         }
 
-        // GET: /Course
+        // Get For Courses Page
         public async Task<IActionResult> Index()
         {
             var courses = await _context.Courses
+                .Include(c => c.Category)
                 .Select(c => new courseDTO
                 {
                     CourseId = c.CourseId,
@@ -30,11 +34,43 @@ namespace E_learningPlatform.Controllers
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt,
                     catogryid = c.CategoryId,
-                    InstructorName = c.InstructorName // Add this line
+                    InstructorName = c.InstructorName
                 })
+                .OrderBy(c => c.CourseTitle)
                 .ToListAsync();
 
-            return View(courses); 
+            return View(courses);
+        }
+
+
+        // Get for Course Details Page
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+         
+                return NotFound("Course ID not provided.");
+            }
+
+ 
+            var course = await _context.Courses
+                .Include(c => c.Category) 
+                .Include(c => c.lessons)  
+                .FirstOrDefaultAsync(m => m.CourseId == id.Value); 
+
+            if (course == null)
+            {
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            return View(course); 
+        }
+
+       // Get Enroll with id
+        public IActionResult Enroll(int id)
+        {
+         
+            return RedirectToAction("Payment", "Enrollment", new { id = id }); // send to enrollment controller 
         }
     }
 }
