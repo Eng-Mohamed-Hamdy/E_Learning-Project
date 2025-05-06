@@ -40,7 +40,10 @@
                         </div>
                         <div class="card-footer bg-transparent border-0">
                             <div class="d-grid">
-                                <a asp-controller="Course" asp-action="Details" asp-route-id="@myCourse.courseId" class="btn btn-primary">
+                                <a asp-controller="Enrollment"
+                                   asp-action="MyCoursePage"
+                                   asp-route-courseId="@myCourse.Course.CourseId"
+                                   class="btn btn-primary">
                                     <i class="bi bi-play-circle me-2"></i>Continue Learning
                                 </a>
                             </div>

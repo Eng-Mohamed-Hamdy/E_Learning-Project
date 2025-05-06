@@ -101,5 +101,16 @@ namespace E_learningPlatform.Controllers
 
             return View(myCourses);
         }
+
+        public async Task<IActionResult> MyCoursePage(int courseId)
+        {
+            var MyCoursePage = _context.Lessons
+                .Where(l => l.courseId == courseId)
+                .ToList(); 
+
+            return View(MyCoursePage); 
+        }
+
     }
 }
+

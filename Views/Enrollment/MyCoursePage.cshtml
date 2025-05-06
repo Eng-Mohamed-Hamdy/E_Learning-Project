@@ -1,0 +1,58 @@
+﻿@model IEnumerable<E_learningPlatform.Models.lesson>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No lessons available for this course.</p>
+}
+else
+{
+    var firstLesson = Model.First();
+
+    <div class="row">
+        <!-- Video player (visible initially with first lesson) -->
+        <div class="col-md-8">
+            <h3 id="currentLessonTitle">@firstLesson.lessonTitle</h3>
+            <video id="lessonPlayer" width="100%" height="auto" controls autoplay>
+                <source id="videoSource" src="@Url.Content($"~/{firstLesson.lessonVideo}")" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Lesson list -->
+        <div class="col-md-4">
+            <ul id="lessonList" class="list-group">
+                @foreach (var lesson in Model)
+                {
+                    var isActive = lesson.lessonTitle == firstLesson.lessonTitle ? "active" : "";
+                    <li class="list-group-item lesson-item @isActive"
+                        data-video="@Url.Content($"~/{lesson.lessonVideo}")"
+                        data-title="@lesson.lessonTitle">
+                        @lesson.lessonTitle
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const items = document.querySelectorAll(".lesson-item");
+            const player = document.getElementById("lessonPlayer");
+            const source = document.getElementById("videoSource");
+            const titleEl = document.getElementById("currentLessonTitle");
+
+            items.forEach(function (item) {
+                item.addEventListener("click", function () {
+                    items.forEach(i => i.classList.remove("active"));
+                    this.classList.add("active");
+
+
+                    titleEl.textContent = this.dataset.title;
+                    source.src = this.dataset.video;
+                    player.load();
+                    player.play();
+                });
+            });
+        });
+    </script>
+}
