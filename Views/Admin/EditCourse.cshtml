@@ -1,0 +1,154 @@
+@model E_learningPlatform.Models.CourseWithLessonsViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<div class="container mt-4">
+    <h2>Edit Course</h2>
+    <hr />
+
+    <form asp-action="EditCourse" method="post">
+        <input type="hidden" asp-for="CourseId" />
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Course Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="CourseTitle"></label>
+                    <input asp-for="CourseTitle" class="form-control" />
+                    <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId">Category</label>
+                    <select asp-for="CategoryId" class="form-control"
+                            asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", Model.CategoryId))">
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="InstructorName"></label>
+                    <input asp-for="InstructorName" class="form-control" />
+                    <span asp-validation-for="InstructorName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <input asp-for="Available" class="form-check-input" />
+                    <label asp-for="Available" class="form-check-label"></label>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Image"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Course Lessons</h5>
+                <button type="button" id="addLessonBtn" class="btn btn-light btn-sm">Add Lesson</button>
+            </div>
+            <div class="card-body" id="lessonsContainer">
+                @for (int i = 0; i < Model.Lessons.Count; i++)
+                {
+                    <div class="lesson-item card mb-3 @(string.IsNullOrEmpty(Model.Lessons[i].LessonTitle) ? "new-lesson" : "")">
+                        <div class="card-body">
+                            <h5 class="lesson-header">
+                                @if (!string.IsNullOrEmpty(Model.Lessons[i].LessonTitle))
+                                {
+                                    <span>Lesson: @Model.Lessons[i].LessonTitle</span>
+                                }
+                                else
+                                {
+                                    <span>New Lesson</span>
+                                }
+                                <button type="button" class="btn btn-sm btn-danger remove-lesson float-right">Remove</button>
+                            </h5>
+                            
+                            <input type="hidden" asp-for="Lessons[i].LessonId" />
+                            
+                            <div class="form-group">
+                                <label asp-for="Lessons[i].LessonTitle">Lesson Title</label>
+                                <input asp-for="Lessons[i].LessonTitle" class="form-control" />
+                                <span asp-validation-for="Lessons[i].LessonTitle" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label asp-for="Lessons[i].LessonVideo">Video URL/Path</label>
+                                <input asp-for="Lessons[i].LessonVideo" class="form-control" />
+                                <span asp-validation-for="Lessons[i].LessonVideo" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save Course</button>
+            <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Hide empty lesson slots initially
+            $('.new-lesson').hide();
+            
+            // Show the first empty lesson slot when Add Lesson button is clicked
+            $('#addLessonBtn').click(function() {
+                var firstHidden = $('.new-lesson:hidden').first();
+                if (firstHidden.length > 0) {
+                    firstHidden.show();
+                } else {
+                    alert('Maximum number of new lessons reached. Please save the course to add more lessons.');
+                }
+            });
+            
+            // Remove lesson functionality
+            $('#lessonsContainer').on('click', '.remove-lesson', function() {
+                var lessonItem = $(this).closest('.lesson-item');
+                var lessonIdInput = lessonItem.find('input[name$=".LessonId"]');
+                
+                // If this is an existing lesson (has LessonId > 0), we need to mark it for deletion
+                if (lessonIdInput.val() > 0) {
+                    // Here we're just hiding it visually - backend will need additional logic to handle deletion
+                    if (confirm('Are you sure you want to remove this lesson?')) {
+                        lessonItem.hide();
+                        // Clear the inputs but keep the ID for backend processing
+                        lessonItem.find('input[name$=".LessonTitle"]').val('');
+                        lessonItem.find('input[name$=".LessonVideo"]').val('');
+                    }
+                } else {
+                    // For new lessons, just hide and clear
+                    lessonItem.hide();
+                    lessonItem.find('input').val('');
+                }
+            });
+        });
+    </script>
+}

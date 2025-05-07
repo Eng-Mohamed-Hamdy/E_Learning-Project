@@ -1,0 +1,167 @@
+@model E_learningPlatform.Models.CourseWithLessonsViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<div class="container mt-4">
+    <h2>Create Course with Lessons</h2>
+    <hr />
+
+    <form asp-action="CreateCourse" method="post">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4>Course Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="CourseTitle" class="form-label">Course Title</label>
+                            <input asp-for="CourseTitle" class="form-control" />
+                            <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="InstructorName" class="form-label">Instructor</label>
+                            <input asp-for="InstructorName" class="form-control" />
+                            <span asp-validation-for="InstructorName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Image" class="form-label">Image URL</label>
+                            <input asp-for="Image" class="form-control" placeholder="Enter image URL" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="CategoryId" class="form-label">Category</label>
+                            <select asp-for="CategoryId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                                <option value="">— Select Category —</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Price" class="form-label">Price</label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="Available" class="form-check-input" />
+                            <label asp-for="Available" class="form-check-label">Available for enrollment</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h4>Course Lessons</h4>
+                <button type="button" id="addLessonButton" class="btn btn-light btn-sm">
+                    <i class="bi bi-plus-circle"></i> Add More Lessons
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="lessonsContainer">
+                    @for (int i = 0; i < Model.Lessons.Count; i++)
+                    {
+                        <div class="lesson-item card mb-3">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">Lesson Title</label>
+                                            <input asp-for="Lessons[i].LessonTitle" class="form-control" />
+                                            <span asp-validation-for="Lessons[i].LessonTitle" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Video URL</label>
+                                            <input asp-for="Lessons[i].LessonVideo" class="form-control" />
+                                            <span asp-validation-for="Lessons[i].LessonVideo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger btn-sm remove-lesson mt-4">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Create Course</button>
+            <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Add new lesson field
+            $("#addLessonButton").click(function () {
+                const index = $(".lesson-item").length;
+                const newLesson = `
+                <div class="lesson-item card mb-3">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="form-label">Lesson Title</label>
+                                    <input name="Lessons[${index}].LessonTitle" class="form-control" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="Lessons[${index}].LessonTitle" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Video URL</label>
+                                    <input name="Lessons[${index}].LessonVideo" class="form-control" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="Lessons[${index}].LessonVideo" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-danger btn-sm remove-lesson mt-4">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                $("#lessonsContainer").append(newLesson);
+            });
+
+            // Remove lesson field (using event delegation because some elements are added dynamically)
+            $("#lessonsContainer").on("click", ".remove-lesson", function () {
+                $(this).closest(".lesson-item").remove();
+                // Reindex all lessons after removal
+                $(".lesson-item").each(function (i) {
+                    $(this).find("input, select").each(function () {
+                        const name = $(this).attr("name");
+                        if (name) {
+                            const newName = name.replace(/\[\d+\]/, `[${i}]`);
+                            $(this).attr("name", newName);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
