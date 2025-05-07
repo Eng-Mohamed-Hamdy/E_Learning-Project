@@ -34,13 +34,17 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
                         </li>
+
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin Dashboard</a> 
                             </li>
                         }
-                        <!-- will add the about us page here-->
+                                                <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="About">About Us</a>
+                        </li>
+                        
 
                     </ul>
 

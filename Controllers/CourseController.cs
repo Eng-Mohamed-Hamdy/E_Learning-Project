@@ -19,10 +19,14 @@ namespace E_learningPlatform.Controllers
         }
 
         // Get For Courses Page
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int category = 2)
         {
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["Categories"] = categories;
+
             var courses = await _context.Courses
                 .Include(c => c.Category)
+                .Where(c => c.CategoryId == category)
                 .Select(c => new courseDTO
                 {
                     CourseId = c.CourseId,

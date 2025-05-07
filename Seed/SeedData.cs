@@ -105,7 +105,7 @@ namespace E_learningPlatform.Seed
 
                 // CourseId = 8: Algebra Essentials
                 new lesson { lessonId = 31, courseId = 8, lessonTitle = "Real Numbers and Operations", lessonVideo = "algebra_L1.mp4" },
-                new lesson { lessonId = 32, courseId = 8, lessonTitle = "Solving Linear Equations and Inequalities", lessonVideo = "algebra_L2.mp4" },
+                new lesson { lessonId = 32, courseId = 8, lessonTitle = "Solving Linear Equations and Inequalities", lessonVideo = "algebra_L22.mp4" },
                 new lesson { lessonId = 33, courseId = 8, lessonTitle = "Polynomials and Factoring", lessonVideo = "algebra_L3.mp4" },
                 new lesson { lessonId = 34, courseId = 8, lessonTitle = "Rational Expressions", lessonVideo = "algebra_L4.mp4" },
                 new lesson { lessonId = 35, courseId = 8, lessonTitle = "Functions and Graphs", lessonVideo = "algebra_L5.mp4" },
