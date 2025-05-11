@@ -2,53 +2,66 @@
 
 @{
     ViewData["Title"] = "Edit User";
+    Layout = "_Layout";
 }
 
 <div class="container mt-4">
-    <h2>Edit User</h2>
-    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h3 class="mb-0">Edit User</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditUser">
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <form asp-action="EditUser">
-        <input type="hidden" asp-for="Id" />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <!-- Username -->
-        <div class="form-group mb-3">
-            <label asp-for="UserName" class="control-label"></label>
-            <input asp-for="UserName" class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
-
-        <!-- Email -->
-        <div class="form-group mb-3">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-
-        <!-- Role Selection -->
-        <div class="form-group mb-3">
-            <label class="control-label">Roles</label>
-            <div class="row">
-                @foreach (var role in ViewBag.AllRoles)
-                {
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   name="SelectedRoles"
-                                   value="@role"
-                            @(Model.Roles.Contains(role) ? "checked" : "") />
-                            <label class="form-check-label">@role</label>
+                        <!-- Username -->
+                        <div class="form-group mb-3">
+                            <label asp-for="UserName" class="form-label">Username</label>
+                            <input asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>                        <!-- Email -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
-                    </div>
-                }
+
+                        <!-- Role Selection -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Roles</label>
+                            <div class="row">
+                                @foreach (var role in ViewBag.AllRoles)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="checkbox"
+                                                name="SelectedRoles"
+                                                value="@role"
+                                                @(Model.Roles.Contains(role) ? "checked" : "") />
+                                            <label class="form-check-label">@role</label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Users" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Users
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a asp-action="Users" class="btn btn-secondary">Cancel</a>
-    </form>
+    </div>
 </div>
 
 @section Scripts {
