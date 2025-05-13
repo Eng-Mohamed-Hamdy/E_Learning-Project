@@ -3,7 +3,6 @@ using E_learningPlatform.Data;
 using E_learningPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -19,87 +18,63 @@ namespace E_learningPlatform.Controllers
             _context = context;
         }
 
-        // Get for payment page ( takes course id )
         public async Task<IActionResult> Payment(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.CourseId == id);
 
-            if (course == null)
-            {
-                return NotFound();
-            }
+            if (course == null) return NotFound();
 
-            var viewModel = new PaymentViewModel
-            {
-                CourseId = course.CourseId,
-                CourseTitle = course.CourseTitle,
-                Price = course.Price
-            };
+            ViewBag.CourseId = course.CourseId;
+            ViewBag.CourseTitle = course.CourseTitle;
+            ViewBag.Price = course.Price;
 
-            return View(viewModel);
+            return View();
         }
 
-        // Post for payment ( adding course to MyCourses page after payment success )
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProcessPayment(PaymentViewModel model)
+        public async Task<IActionResult> ProcessPayment(int courseId)
         {
-            // Get the current user's ID
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString))
                 return RedirectToAction("Login", "Account");
 
             var userId = Guid.Parse(userIdString);
-            var courseId = model.CourseId;
 
-            // Check if enrollment already exists
-            var alreadyEnrolled = await _context.Enrollments
-                .AnyAsync(e => e.StudentId == userId && e.courseId == courseId);
-            if (!alreadyEnrolled)
+            if (!await _context.Enrollments.AnyAsync(e => e.StudentId == userId && e.courseId == courseId))
             {
-                var enrollment = new Enrollment
+                _context.Enrollments.Add(new Enrollment
                 {
                     StudentId = userId,
                     courseId = courseId,
-                    PaymentMethod = model.PaymentMethod
-                };
-                _context.Enrollments.Add(enrollment);
+                    PaymentMethod = "PayPal"
+                });
             }
 
-            // Check if MyCourse record already exists
-            var hasCourse = await _context.MyCourses
-                .AnyAsync(mc => mc.StudentId == userId && mc.courseId == courseId);
-            if (!hasCourse)
+            if (!await _context.MyCourses.AnyAsync(mc => mc.StudentId == userId && mc.courseId == courseId))
             {
-                var myCourse = new MyCourse
+                _context.MyCourses.Add(new MyCourse
                 {
                     StudentId = userId,
                     courseId = courseId
-                };
-                _context.MyCourses.Add(myCourse);
+                });
             }
 
-            // Save only if we added anything
-            if (!_context.ChangeTracker.HasChanges())
+            if (_context.ChangeTracker.HasChanges())
             {
-                // nothing to save; maybe set a TempData message?
-                TempData["Info"] = "You’re already enrolled in this course.";
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Payment successful! Course added to My Course Page.";
             }
             else
             {
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Payment successful! The course has been added to your dashboard.";
+                TempData["Info"] = "You're already enrolled in this course.";
             }
 
             return RedirectToAction("MyCourses");
         }
-
 
         // Get for MyCourses Page
         public async Task<IActionResult> MyCourses()

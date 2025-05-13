@@ -73,8 +73,11 @@ namespace E_learningPlatform.Controllers
        // Get Enroll with id
         public IActionResult Enroll(int id)
         {
-         
-            return RedirectToAction("Payment", "Enrollment", new { id = id }); // send to enrollment controller 
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Course"); // Redirect to course index or another appropriate page
+            }
+            return RedirectToAction("Payment", "Enrollment", new { id = id });
         }
     }
 }
