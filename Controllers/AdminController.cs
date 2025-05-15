@@ -61,16 +61,15 @@ namespace E_learningPlatform.Controllers
         // Edit User - GET
         [HttpGet]
         public async Task<IActionResult> EditUser(Guid userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+        {            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null) return NotFound();
 
             var userRoles = await _userManager.GetRolesAsync(user);
             var model = new EditUserViewModel
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
+                UserName = user.UserName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
                 Roles = userRoles
             };
 
@@ -87,19 +86,21 @@ namespace E_learningPlatform.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByIdAsync(model.Id.ToString());
-                if (user == null) return NotFound();
-
-                // Update basic info
-                user.UserName = model.UserName;
-                user.Email = model.Email;
+                if (user == null) return NotFound();                // Update basic info
+                user.UserName = model.UserName ?? string.Empty;
+                user.Email = model.Email ?? string.Empty;
                 var updateResult = await _userManager.UpdateAsync(user);
 
                 if (updateResult.Succeeded)
-                {
-                    // Update roles
+                {                // Update roles
                     var currentRoles = await _userManager.GetRolesAsync(user);
                     await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                    await _userManager.AddToRolesAsync(user, model.SelectedRoles);
+                    
+                    // Check if SelectedRoles is not null before using it
+                    if (model.SelectedRoles != null && model.SelectedRoles.Any())
+                    {
+                        await _userManager.AddToRolesAsync(user, model.SelectedRoles);
+                    }
 
                     TempData["Success"] = "User updated successfully!";
                     return RedirectToAction("Users");
