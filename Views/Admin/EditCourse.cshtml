@@ -7,10 +7,9 @@
 
 <div class="container mt-4">
     <h2>Edit Course</h2>
-    <hr />
-
-    <form asp-action="EditCourse" method="post">
+    <hr />    <form asp-controller="Admin" asp-action="EditCourse" method="post" id="editCourseForm">
         <input type="hidden" asp-for="CourseId" />
+        @Html.AntiForgeryToken()
 
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
@@ -102,10 +101,8 @@
                     </div>
                 }
             </div>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save Course</button>
+        </div>        <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="submitButton">Save Course</button>
             <a asp-action="Courses" class="btn btn-secondary">Back to List</a>
         </div>
     </form>
@@ -136,18 +133,49 @@
                 
                 // If this is an existing lesson (has LessonId > 0), we need to mark it for deletion
                 if (lessonIdInput.val() > 0) {
-                    // Here we're just hiding it visually - backend will need additional logic to handle deletion
                     if (confirm('Are you sure you want to remove this lesson?')) {
+                        // For existing lessons, we need to properly mark them for deletion
+                        // but keep the ID so the controller knows what to delete
                         lessonItem.hide();
-                        // Clear the inputs but keep the ID for backend processing
+                        
+                        // Store the lessonId value
+                        var lessonId = lessonIdInput.val();
+                        
+                        // Clear the inputs but keep the ID
                         lessonItem.find('input[name$=".LessonTitle"]').val('');
                         lessonItem.find('input[name$=".LessonVideo"]').val('');
+                        
+                        // Make sure the lessonId is preserved
+                        lessonIdInput.val(lessonId);
+                        
+                        // Disable validation for removed lessons
+                        lessonItem.find('input').removeClass('input-validation-error')
+                                               .removeAttr('required');
+                        lessonItem.find('.text-danger').empty();
                     }
                 } else {
                     // For new lessons, just hide and clear
                     lessonItem.hide();
-                    lessonItem.find('input').val('');
+                    lessonItem.find('input').val('')
+                                          .removeClass('input-validation-error')
+                                          .removeAttr('required');
+                    lessonItem.find('.text-danger').empty();
                 }
+            });
+            
+            // Add form submit handler for debugging and fixing validation issues
+            $('form').on('submit', function(e) {
+                // Clear validation errors on hidden lessons
+                $('.lesson-item:hidden').find('.text-danger').empty();
+                
+                // Remove required attribute from hidden lessons to prevent validation errors
+                $('.lesson-item:hidden').find('input').removeAttr('required');
+                
+                // Log submission for debugging
+                console.log('Form submitted');
+                
+                // Let the form submit normally
+                return true;
             });
         });
     </script>

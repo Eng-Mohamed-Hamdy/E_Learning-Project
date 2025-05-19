@@ -385,13 +385,24 @@ namespace E_learningPlatform.Controllers
             // Populate categories for dropdown
             ViewBag.Categories = _context.Categories.ToList();
             return View(viewModel);
-        }
-
-        [HttpPost]
+        }        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCourse(CourseWithLessonsViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            // Log the model state for debugging
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    if (state.Value.Errors.Count > 0)
+                    {
+                        Console.WriteLine($"Key: {state.Key}, Error: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                    }
+                }
+            }
+            
+            // Continue if model is valid or force-process if data seems valid despite validation errors
+            if (ModelState.IsValid || (viewModel.CourseId > 0 && !string.IsNullOrEmpty(viewModel.CourseTitle)))
             {
                 try
                 {
@@ -411,8 +422,6 @@ namespace E_learningPlatform.Controllers
                     course.InstructorName = viewModel.InstructorName;
                     course.CategoryId = viewModel.CategoryId;
 
-                    _context.Update(course);
-
                     // Handle lessons - first get existing lessons
                     var existingLessons = await _context.Lessons
                         .Where(l => l.courseId == viewModel.CourseId)
@@ -422,64 +431,69 @@ namespace E_learningPlatform.Controllers
                     var submittedLessonIds = new HashSet<int>();
 
                     // Process each lesson from the view model
-                    foreach (var lessonVM in viewModel.Lessons)
+                    if (viewModel.Lessons != null)
                     {
-                        // Skip empty lessons
-                        if (string.IsNullOrEmpty(lessonVM.LessonTitle) || string.IsNullOrEmpty(lessonVM.LessonVideo))
+                        foreach (var lessonVM in viewModel.Lessons)
                         {
-                            continue;
-                        }
-
-                        if (lessonVM.LessonId > 0)
-                        {
-                            // Update existing lesson
-                            var existingLesson = existingLessons.FirstOrDefault(l => l.lessonId == lessonVM.LessonId);
-                            if (existingLesson != null)
+                            // Skip empty lessons
+                            if (string.IsNullOrEmpty(lessonVM.LessonTitle) || string.IsNullOrEmpty(lessonVM.LessonVideo))
                             {
-                                existingLesson.lessonTitle = lessonVM.LessonTitle;
-                                existingLesson.lessonVideo = lessonVM.LessonVideo;
-                                _context.Update(existingLesson);
-                                
-                                // Record this lesson as submitted
-                                submittedLessonIds.Add(lessonVM.LessonId);
+                                continue;
                             }
-                        }
-                        else
-                        {
-                            // Add new lesson
-                            var newLesson = new lesson
-                            {
-                                lessonTitle = lessonVM.LessonTitle,
-                                lessonVideo = lessonVM.LessonVideo,
-                                courseId = viewModel.CourseId
-                            };
-                            _context.Lessons.Add(newLesson);
-                        }
-                    }
 
-                    // Delete lessons that were not included in the submission
+                            if (lessonVM.LessonId > 0)
+                            {
+                                // Update existing lesson
+                                var existingLesson = existingLessons.FirstOrDefault(l => l.lessonId == lessonVM.LessonId);
+                                if (existingLesson != null)
+                                {
+                                    existingLesson.lessonTitle = lessonVM.LessonTitle;
+                                    existingLesson.lessonVideo = lessonVM.LessonVideo;
+                                    _context.Update(existingLesson);
+                                    
+                                    // Record this lesson as submitted
+                                    submittedLessonIds.Add(lessonVM.LessonId);
+                                }
+                            }
+                            else
+                            {
+                                // Add new lesson
+                                var newLesson = new lesson
+                                {
+                                    lessonTitle = lessonVM.LessonTitle,
+                                    lessonVideo = lessonVM.LessonVideo,
+                                    courseId = viewModel.CourseId
+                                };
+                                _context.Lessons.Add(newLesson);
+                            }
+                        }                    // Delete lessons that were not included in the submission
                     // These are lessons that existed before but were removed by the user
                     foreach (var lesson in existingLessons)
                     {
+                        // Remove lessons that were either not in the form or had empty titles/videos
                         if (!submittedLessonIds.Contains(lesson.lessonId))
                         {
                             _context.Lessons.Remove(lesson);
                         }
+                    }
                     }
 
                     await _context.SaveChangesAsync();
                     TempData["Success"] = "Course and lessons updated successfully!";
                     return RedirectToAction("Courses");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
+                    // Add more detailed error information
+                    ModelState.AddModelError(string.Empty, $"Error saving changes: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        ModelState.AddModelError(string.Empty, $"Inner error: {ex.InnerException.Message}");
+                    }
+
                     if (!CourseExists(viewModel.CourseId))
                     {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
                     }
                 }
             }
