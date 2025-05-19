@@ -24,17 +24,66 @@ namespace E_learningPlatform.Controllers
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
-        }
-
-        // Admin Dashboard
+        }        // Admin Dashboard
         public IActionResult Index()
         {
+            // Basic stats
             var stats = new AdminDashboardViewModel
             {
                 TotalUsers = _userManager.Users.Count(),
                 TotalCourses = _context.Courses.Count(),
-                TotalCategories = _context.Categories.Count()
+                TotalCategories = _context.Categories.Count(),
+                      // New statistics
+                TotalEnrollments = _context.Enrollments.Count(),
+                TotalRevenue = _context.Enrollments.Sum(e => e.Course.Price),
+                ActiveCourses = _context.Courses.Count(c => c.Available),
+                InactiveCourses = _context.Courses.Count(c => !c.Available)
             };
+              // Get top 5 courses by enrollment
+            // First load all courses
+            var courses = _context.Courses.ToList();
+            
+            // Create statistics for each course
+            var courseStats = new List<CourseStatistic>();
+            foreach (var course in courses)
+            {
+                // Count enrollments for this course
+                var enrollmentCount = _context.Enrollments.Count(e => e.courseId == course.CourseId);
+                
+                courseStats.Add(new CourseStatistic
+                {
+                    CourseId = course.CourseId,
+                    CourseTitle = course.CourseTitle,
+                    EnrollmentCount = enrollmentCount,
+                    Revenue = course.Price * enrollmentCount
+                });
+            }
+            
+            // Get top 5 courses
+            stats.TopCourses = courseStats
+                .OrderByDescending(c => c.EnrollmentCount)
+                .Take(5)
+                .ToList();// Get enrollments by category
+            var enrollmentsByCategory = new Dictionary<string, int>();
+            
+            // Get all categories
+            var categories = _context.Categories.ToList();
+            
+            // For each category, count enrollments
+            foreach (var category in categories)
+            {
+                // Get courses in this category
+                var courseIds = _context.Courses.Where(c => c.CategoryId == category.Id).Select(c => c.CourseId).ToList();
+                
+                // Count enrollments for these courses
+                var enrollmentCount = _context.Enrollments.Count(e => courseIds.Contains(e.courseId));
+                
+                // Add to dictionary
+                enrollmentsByCategory.Add(category.Name, enrollmentCount);
+            }
+            
+            stats.EnrollmentsByCategory = enrollmentsByCategory;
+
             return View(stats);
         }
 

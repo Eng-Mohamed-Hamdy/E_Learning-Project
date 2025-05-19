@@ -242,12 +242,53 @@ body {
 .hero-banner .btn-outline-light {
     border-color: #fff;
     color: #fff;
-}
-
-    .hero-banner .btn-outline-light:hover {
+}    .hero-banner .btn-outline-light:hover {
         background-color: rgba(255, 255, 255, 0.9); 
         color: #333; 
     }
+
+/* Admin Dashboard Styles */
+.admin-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.admin-card .card-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.admin-card h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+}
+
+.admin-card i {
+    opacity: 0.8;
+}
+
+.admin-card:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.admin-stats-table th {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.admin-stats-table td {
+    vertical-align: middle;
+}
 
 
 @@media (max-width: 768px) {
