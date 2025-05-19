@@ -299,8 +299,7 @@ namespace E_learningPlatform.Controllers
         public async Task<IActionResult> CreateCourse(CourseWithLessonsViewModel viewModel)
         {
             if (ModelState.IsValid)
-            {
-                // Create new Course entity from view model
+            {                // Create new Course entity from view model
                 var course = new Course
                 {
                     CourseTitle = viewModel.CourseTitle,
@@ -309,7 +308,8 @@ namespace E_learningPlatform.Controllers
                     Price = viewModel.Price,
                     Available = viewModel.Available,
                     InstructorName = viewModel.InstructorName,
-                    CategoryId = viewModel.CategoryId
+                    CategoryId = viewModel.CategoryId,
+                    CreatedAt = DateTime.UtcNow // Set the CreatedAt value
                 };
 
                 // Add the course first to get its ID
