@@ -1,38 +1,184 @@
 ﻿@model IEnumerable<E_learningPlatform.Models.lesson>
-
 @if (Model == null || !Model.Any())
 {
-    <p>No lessons available for this course.</p>
+    <p class="no-lessons-message">No lessons available for this course.</p>
 }
 else
 {
     var firstLesson = Model.First();
-
-    <div class="row">
-        <!-- Video player (visible initially with first lesson) -->
-        <div class="col-md-8">
-            <h3 id="currentLessonTitle">@firstLesson.lessonTitle</h3>
-            <video id="lessonPlayer" width="100%" height="auto" controls autoplay>
-                <source id="videoSource" src="@Url.Content($"~/{firstLesson.lessonVideo}")" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <!-- Lesson list -->
-        <div class="col-md-4">
-            <ul id="lessonList" class="list-group">
-                @foreach (var lesson in Model)
-                {
-                    var isActive = lesson.lessonTitle == firstLesson.lessonTitle ? "active" : "";
-                    <li class="list-group-item lesson-item @isActive"
-                        data-video="@Url.Content($"~/{lesson.lessonVideo}")"
-                        data-title="@lesson.lessonTitle">
-                        @lesson.lessonTitle
-                    </li>
-                }
-            </ul>
+    <div class="e-learning-container">
+        <div class="row lesson-player-row">
+            <!-- Video player -->
+            <div class="col-md-8 video-container">
+                <div class="video-header">
+                    <h3 id="currentLessonTitle">@firstLesson.lessonTitle</h3>
+                </div>
+                <div class="video-wrapper">
+                    <video id="lessonPlayer" width="100%" height="auto" controls autoplay>
+                        <source id="videoSource" src="@Url.Content($"~/{firstLesson.lessonVideo}")" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            <!-- Lesson list -->
+            <div class="col-md-4 lessons-sidebar">
+                <div class="lessons-header">
+                    <h4>Course Lessons</h4>
+                </div>
+                <div class="lesson-list-container">
+                    <ul id="lessonList" class="list-group lesson-list">
+                        @foreach (var lesson in Model)
+                        {
+                            var isActive = lesson.lessonTitle == firstLesson.lessonTitle ? "active" : "";
+                            <li class="list-group-item lesson-item @isActive"
+                                data-video="@Url.Content($"~/{lesson.lessonVideo}")"
+                                data-title="@lesson.lessonTitle">
+                                <span class="lesson-number">@(Model.ToList().IndexOf(lesson) + 1)</span>
+                                <span class="lesson-title">@lesson.lessonTitle</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
+
+    <style>
+        /* Enhanced E-Learning Platform Styles */
+        .e-learning-container {
+            padding: 20px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .lesson-player-row {
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* Video Container */
+        .video-container {
+            margin-bottom: 20px;
+        }
+
+        .video-header {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 15px;
+        }
+
+            .video-header h3 {
+                margin: 0;
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+
+        .video-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        video#lessonPlayer {
+            display: block;
+            background-color: #000;
+        }
+
+        /* Lessons Sidebar */
+        .lessons-sidebar {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+
+        .lessons-header {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #e0e0e0;
+            height: auto;
+        }
+
+            .lessons-header h4 {
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+
+        .lesson-list-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .lesson-list {
+            padding: 0;
+            overflow-y: hidden;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-left: 0;
+            border-right: 0;
+            border-radius: 0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+            .lesson-item:hover {
+                background-color: #f0f0f0;
+            }
+
+            .lesson-item.active {
+                background-color: #e9ecef;
+                font-weight: 600;
+                border-left: 4px solid #007bff;
+            }
+
+   
+
+        .lesson-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .lesson-item.active .lesson-number {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .lesson-title {
+            flex: 1;
+            line-height: 1.3;
+            color: #212529;
+        }
+
+
+        }
+
+        /* No lessons message */
+        .no-lessons-message {
+            padding: 20px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+    </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -43,14 +189,24 @@ else
 
             items.forEach(function (item) {
                 item.addEventListener("click", function () {
+                    // Update active class
                     items.forEach(i => i.classList.remove("active"));
                     this.classList.add("active");
 
-
+                    // Update video and title
                     titleEl.textContent = this.dataset.title;
                     source.src = this.dataset.video;
+
+                    // Reset player and play
                     player.load();
                     player.play();
+
+                    // Scroll to video on mobile devices
+                    if (window.innerWidth < 768) {
+                        document.querySelector('.video-container').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
         });

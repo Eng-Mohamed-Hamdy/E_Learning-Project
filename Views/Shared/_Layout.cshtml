@@ -59,9 +59,10 @@
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarUserDropdown">
                                     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))  
                                     {  
-                                       <li><a class="dropdown-item" asp-controller="Enrollment" asp-action="MyCourses"><i class="bi bi-book me-2"></i>My Courses</a></li>  
+                                       <li><a class="dropdown-item" asp-controller="Enrollment" asp-action="MyCourses"><i class="bi bi-book me-2"></i>My Courses</a></li>
+                                       <li><hr class="dropdown-divider"></li>
                                     }
-                                    <li><hr class="dropdown-divider"></li>
+                                    
                                     <li>
                                         <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
                                             <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
