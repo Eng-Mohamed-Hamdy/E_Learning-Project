@@ -18,11 +18,6 @@ namespace E_learningPlatform.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Exam>()
-                        .HasOne(e => e.Lesson)
-                        .WithMany()
-                        .HasForeignKey(e => e.lessonId)
-                        .OnDelete(DeleteBehavior.Restrict);
 
             SeedData.Seed(modelBuilder);
         }
@@ -31,7 +26,6 @@ namespace E_learningPlatform.Data
 
         public DbSet<lesson> Lessons { get; set; }
 
-        public DbSet<Exam> Exams { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<MyCourse> MyCourses { get; set; } 

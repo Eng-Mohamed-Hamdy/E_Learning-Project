@@ -305,3 +305,11 @@ body {
             font-size: 1.1rem;
         }
 }
+
+.nav-link.btn-outline-primary:hover {
+    color: white !important;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    color: white !important;
+}

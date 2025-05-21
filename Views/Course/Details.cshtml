@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = Model.CourseTitle ?? "Course Details";
-    string imagePath = string.IsNullOrEmpty(Model.Image) ? "/images/default-course.png" : $"/{Model.Image.TrimStart('/')}";
+    
     string displayPrice = Model.Price == 0 ? "Free" : $"Price: {Model.Price:C}";
 }
 
@@ -11,7 +11,7 @@
     <div class="row mb-4 align-items-center">
         <!-- Course Image -->
         <div class="col-md-3 text-center mb-3 mb-md-0">
-            <img src="@imagePath"
+            <img src="@Model.Image"
                  alt="@Model.CourseTitle"
                  class="img-fluid rounded"
                  style="max-height: 180px; width: auto;">
@@ -63,15 +63,14 @@
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#lessonsContent"
-                    aria-expanded="false"
+                    aria-expanded="true"
                     aria-controls="lessonsContent">
                 <span class="me-1">Lessons</span>
-               
             </button>
         </div>
 
         <!-- Collapsible Content -->
-        <div class="collapse" id="lessonsContent">
+        <div class="collapse show" id="lessonsContent">
             @if (Model.lessons != null && Model.lessons.Any())
             {
                 <div class="list-group">
@@ -96,6 +95,7 @@
             }
         </div>
     </div>
+
 </div>
 
 <style>

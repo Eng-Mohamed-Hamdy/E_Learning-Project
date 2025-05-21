@@ -9,6 +9,7 @@ namespace E_learningPlatform.Seed
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
+
             // --- Seed Categories ---
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Science" },

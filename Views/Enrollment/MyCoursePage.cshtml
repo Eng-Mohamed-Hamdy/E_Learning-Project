@@ -1,11 +1,25 @@
 ﻿@model IEnumerable<E_learningPlatform.Models.lesson>
+
+@{
+    var firstLesson = Model?.FirstOrDefault();
+
+    string GetYouTubeEmbedUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return "";
+
+        var match = System.Text.RegularExpressions.Regex.Match(url,
+            @"(?:youtube\.com/watch\?v=|youtu\.be/)([^\?&""'>]+)");
+
+        return match.Success ? $"https://www.youtube.com/embed/{match.Groups[1].Value}?autoplay=1" : "";
+    }
+}
+
 @if (Model == null || !Model.Any())
 {
     <p class="no-lessons-message">No lessons available for this course.</p>
 }
 else
 {
-    var firstLesson = Model.First();
     <div class="e-learning-container">
         <div class="row lesson-player-row">
             <!-- Video player -->
@@ -14,12 +28,16 @@ else
                     <h3 id="currentLessonTitle">@firstLesson.lessonTitle</h3>
                 </div>
                 <div class="video-wrapper">
-                    <video id="lessonPlayer" width="100%" height="auto" controls autoplay>
-                        <source id="videoSource" src="@Url.Content($"~/{firstLesson.lessonVideo}")" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                    <iframe id="lessonPlayer"
+                            width="100%" height="400"
+                            src="@GetYouTubeEmbedUrl(firstLesson.lessonVideo)"
+                            frameborder="0"
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen>
+                    </iframe>
                 </div>
             </div>
+
             <!-- Lesson list -->
             <div class="col-md-4 lessons-sidebar">
                 <div class="lessons-header">
@@ -31,7 +49,7 @@ else
                         {
                             var isActive = lesson.lessonTitle == firstLesson.lessonTitle ? "active" : "";
                             <li class="list-group-item lesson-item @isActive"
-                                data-video="@Url.Content($"~/{lesson.lessonVideo}")"
+                                data-video="@GetYouTubeEmbedUrl(lesson.lessonVideo)"
                                 data-title="@lesson.lessonTitle">
                                 <span class="lesson-number">@(Model.ToList().IndexOf(lesson) + 1)</span>
                                 <span class="lesson-title">@lesson.lessonTitle</span>
@@ -44,7 +62,6 @@ else
     </div>
 
     <style>
-        /* Enhanced E-Learning Platform Styles */
         .e-learning-container {
             padding: 20px 0;
             max-width: 1200px;
@@ -56,7 +73,6 @@ else
             align-items: stretch;
         }
 
-        /* Video Container */
         .video-container {
             margin-bottom: 20px;
         }
@@ -79,12 +95,11 @@ else
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        video#lessonPlayer {
+        iframe#lessonPlayer {
             display: block;
             background-color: #000;
         }
 
-        /* Lessons Sidebar */
         .lessons-sidebar {
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -93,14 +108,12 @@ else
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: auto;
         }
 
         .lessons-header {
             padding: 15px;
             background-color: #f0f0f0;
             border-bottom: 1px solid #e0e0e0;
-            height: auto;
         }
 
             .lessons-header h4 {
@@ -109,24 +122,15 @@ else
                 font-weight: 600;
             }
 
-        .lesson-list-container {
-            flex: 1;
-            overflow: hidden;
-        }
-
         .lesson-list {
             padding: 0;
-            overflow-y: hidden;
         }
 
         .lesson-item {
             display: flex;
             align-items: center;
             padding: 12px 15px;
-            border-left: 0;
-            border-right: 0;
-            border-radius: 0;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
             cursor: pointer;
         }
 
@@ -139,8 +143,6 @@ else
                 font-weight: 600;
                 border-left: 4px solid #007bff;
             }
-
-   
 
         .lesson-number {
             display: flex;
@@ -162,14 +164,9 @@ else
 
         .lesson-title {
             flex: 1;
-            line-height: 1.3;
             color: #212529;
         }
 
-
-        }
-
-        /* No lessons message */
         .no-lessons-message {
             padding: 20px;
             text-align: center;
@@ -184,24 +181,16 @@ else
         document.addEventListener("DOMContentLoaded", function () {
             const items = document.querySelectorAll(".lesson-item");
             const player = document.getElementById("lessonPlayer");
-            const source = document.getElementById("videoSource");
             const titleEl = document.getElementById("currentLessonTitle");
 
             items.forEach(function (item) {
                 item.addEventListener("click", function () {
-                    // Update active class
                     items.forEach(i => i.classList.remove("active"));
                     this.classList.add("active");
 
-                    // Update video and title
                     titleEl.textContent = this.dataset.title;
-                    source.src = this.dataset.video;
+                    player.src = this.dataset.video;
 
-                    // Reset player and play
-                    player.load();
-                    player.play();
-
-                    // Scroll to video on mobile devices
                     if (window.innerWidth < 768) {
                         document.querySelector('.video-container').scrollIntoView({
                             behavior: 'smooth'
