@@ -174,6 +174,12 @@ namespace E_learningPlatform.Controllers
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user != null)
             {
+                if (user.UserName == "Admin")
+                {
+                    TempData["Error"] = "Cannot delete the Super Admin.";
+                    return RedirectToAction("Users");
+                }
+
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
@@ -186,6 +192,7 @@ namespace E_learningPlatform.Controllers
             }
             return RedirectToAction("Users");
         }
+
 
         // Create Student
         [HttpGet]
